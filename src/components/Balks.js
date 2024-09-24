@@ -6,7 +6,8 @@ const Balks = (props) => {
     const balk = useLoader(OBJLoader, '/models/balk_150x150x2200.obj');
     const balkCorner = useLoader(OBJLoader, '/models/balk_corner.obj');
     const balkUp = useLoader(OBJLoader, '/models/balk_150x150x1000.obj');
-    console.log(balkUp);
+    const lodgeDown = useLoader(OBJLoader, '/models/Lodge_20x200x1000.obj');
+    console.log(lodgeDown);
     const PLANE_X = 3;
     const PLANE_Z = 5;
 
@@ -70,11 +71,62 @@ const Balks = (props) => {
             scale: [4.7, 1, 1]
         },
         {
-            position: [PLANE_X/2 - 0.075, 2.2, -PLANE_Z/2 + 0.15],
-            rotation: [0, -Math.PI/2, 0],
+            position: [PLANE_X/2 - 0.075, 2.2, PLANE_Z/2 - 0.15],
+            rotation: [0, Math.PI/2, 0],
             scale: [4.7, 1, 1]
         },
     ];
+
+    const diff = 0.02;
+    const delta = 0.18;
+    const scaleX = PLANE_X + 2 * 0.18;
+    const scaleZ = PLANE_Z + 2*(0.18 - 0.02);
+
+    const lodgeDownData = [
+        {
+            position: [-PLANE_X/2 - 0.18, 2.2, -PLANE_Z/2 - 0.18], // -0.18
+            rotation: [0, 0, 0],
+            scale: [scaleX, 1, 1]
+        },
+        {
+            position: [PLANE_X/2 + 0.18, 2.2, PLANE_Z/2 + 0.18],
+            rotation: [0, Math.PI, 0],
+            scale: [scaleX, 1, 2]
+        },
+        {
+            position: [-PLANE_X/2 - 0.18, 2.2, PLANE_Z/2 + 0.16],
+            rotation: [0, Math.PI/2, 0],
+            scale: [scaleZ, 1, 1]
+        },
+        {
+            position: [PLANE_X/2 + 0.18, 2.2, -PLANE_Z/2 - 0.16],
+            rotation: [0, -Math.PI/2, 0],
+            scale: [scaleZ, 1, 1]
+        },
+    ];
+
+    const drawDownLodge = () => {
+        const downLodges = [];
+        lodgeDownData.map((el, index) => (
+            downLodges.push(
+                <mesh
+                key={`lodge`+ index} 
+                receiveShadow
+                castShadow
+                geometry={lodgeDown.children[0].geometry}
+                position={el.position}
+                scale={el.scale}
+                rotation={el.rotation}
+                >
+                    <meshBasicMaterial 
+                    roughness={1}
+                    color={"rgb(0, 255, 230)"}
+                    />
+                </mesh>
+            )
+        ))
+        return downLodges;
+    }
 
     const drawUpBalks = () => {
         const upBalks = [];
@@ -196,7 +248,18 @@ const Balks = (props) => {
         <group name={"balk"}>
             {drawCornerBalks()}
             {drawSideBalks()}
-            {drawUpBalks()}
+            {/* {drawUpBalks()} */}
+            {drawDownLodge()}
+            {/* <mesh
+                receiveShadow
+                castShadow
+                geometry={lodgeDown.children[0].geometry}
+                >
+                    <meshBasicMaterial 
+                    roughness={1}
+                    color={"rgb(0, 255, 230)"}
+                    />
+            </mesh> */}
         </group>
 
     )
