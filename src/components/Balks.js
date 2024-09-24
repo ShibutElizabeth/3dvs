@@ -9,7 +9,9 @@ const Balks = (props) => {
     const lodgeDown = useLoader(OBJLoader, '/models/Lodge_20x200x1000.obj');
     const lodgeBevel = useLoader(OBJLoader, '/models/Lodge_20x190x1000_bevel.obj');
     const bB = useLoader(OBJLoader, '/models/lodge_150x50x1000.obj');
-    // console.log(lodgeBevel);
+    const bA = useLoader(OBJLoader, '/models/lodge_150x50x200.obj');
+    const rub = useLoader(OBJLoader, '/models/ruberoid_1000x1000x2.obj');
+    // console.log(bA.children[0].geometry);
     const PLANE_X = 3;
     const PLANE_Z = 5;
 
@@ -143,7 +145,7 @@ const Balks = (props) => {
 
     const drawBevel = () => {
         const bevels = [];
-        bevelData.map((el, index) => (
+        bevelData.forEach((el, index) => (
             bevels.push(
                 <mesh
                 key={`bevel`+ index} 
@@ -168,17 +170,15 @@ const Balks = (props) => {
     for(let i = 0; i < 11; i++){
         bBData.push(
             {
-                position: [-PLANE_X/2, 2.35, -PLANE_Z/2 + 0.05 + i*0.485],
-                rotation: [0, 0, 0],
-                scale: [3, 1, 1]
+                position: [-PLANE_X/2 - 0.14, 2.35, -PLANE_Z/2 + 0.05 + i*0.485],
+                scale: [scaleX - 0.08, 1, 1]
             },
         )
     }
-
-
+    
     const drawbB = () => {
         const bb = [];
-        bBData.map((el, index) => (
+        bBData.forEach((el, index) => (
             bb.push(
                 <mesh
                 key={`bB`+ index} 
@@ -196,6 +196,89 @@ const Balks = (props) => {
             )
         ))
         return bb;
+    }
+
+    let bCData = [
+        {
+            position: [-PLANE_X/2 + 0.025, 2.35, -PLANE_Z/2 - 0.14],
+            rotation: [0, -Math.PI/2, 0],
+            scale: [scaleZ - 0.04, 1, 1]
+        },
+        {
+            position: [PLANE_X/2 - 0.025, 2.35, PLANE_Z/2 + 0.14],
+            rotation: [0, Math.PI/2, 0],
+            scale: [scaleZ-0.04, 1, 1]
+        },
+    ];
+
+    const drawbC = () => {
+        const bC = [];
+        bCData.forEach((el, index) => (
+            bC.push(
+                <mesh
+                key={`bC`+ index} 
+                receiveShadow
+                castShadow
+                geometry={bB.children[0].geometry}
+                position={el.position}
+                rotation={el.rotation}
+                scale={el.scale}
+                >
+                    <meshBasicMaterial 
+                    roughness={1}
+                    color={"rgb(200, 75, 70)"}
+                    />
+                </mesh>
+            )
+        ))
+        return bC;
+    }
+
+    let bAData = [];
+    for(let i = 0; i < 8; i++){
+        if(i< 4){
+            bAData.push(
+                {
+                    position: [-PLANE_X/2 + (i+1)*0.6, 2.35, -PLANE_Z/2 + 0.05],
+                    // rotation: [0, -Math.PI/2, 0],
+                    scale: [0.95, 1, 1]
+                },
+            )
+        } else{
+            bAData.push(
+                {
+                    position: [PLANE_X/2 - (i-3)*0.6, 2.35, PLANE_Z/2 + 0.14],
+                    // rotation: [0, -Math.PI/2, 0],
+                    scale: [0.95, 1, 1]
+                },
+            )
+        }
+        
+    }
+    const drawbA = () => {
+        const ba = [];
+        // console.log(bA.children[0])
+        bAData.forEach((el, index) => (
+            
+            ba.push(
+                <mesh
+                key={'ba'+ index}
+                receiveShadow
+                castShadow
+                position={el.position}
+                rotation={[0, Math.PI/2, 0]}
+                scale={el.scale}
+                geometry={bA.children[0].geometry}
+                >
+                    <meshBasicMaterial 
+                    roughness={1}
+                    color={"rgb(60, 100, 100)"}
+                    />
+                </mesh>
+            )
+        ))
+        
+        return ba;
     }
 
     const drawDownLodge = () => {
@@ -367,21 +450,25 @@ const Balks = (props) => {
             {drawCornerBalks()}
             {drawSideBalks()}
             {drawUpBalks()}
-            {/* {drawDownLodge()} */}
-            {/* {drawUpLodge()} */}
-            {/* {drawBevel()} */}
+            {drawDownLodge()}
+            {drawUpLodge()}
+            {drawBevel()}
             {drawbB()}
-            {/* <mesh
+            {drawbC()}
+            {drawbA()}
+            <mesh
                 receiveShadow
                 castShadow
-                // rotation={[0, 0, 0]}
-                geometry={bB.children[0].geometry}
+                rotation={[0, 0, 0]}
+                scale={[scaleX, 1, scaleZ]}
+                position={[-PLANE_X/2 - 0.18, 2.6, PLANE_Z/2 + 0.18]}
+                geometry={rub.children[0].geometry}
                 >
                     <meshBasicMaterial 
                     roughness={1}
-                    color={"rgb(200, 255, 20)"}
+                    color={"rgb(100, 100, 100)"}
                     />
-            </mesh> */}
+            </mesh>
         </group>
 
     )
