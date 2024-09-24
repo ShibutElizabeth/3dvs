@@ -11,6 +11,8 @@ const Balks = (props) => {
     const bB = useLoader(OBJLoader, '/models/lodge_150x50x1000.obj');
     const bA = useLoader(OBJLoader, '/models/lodge_150x50x200.obj');
     const rub = useLoader(OBJLoader, '/models/ruberoid_1000x1000x2.obj');
+    const roofE = useLoader(OBJLoader, '/models/roof_edge/roof_edge_1m.obj');
+    const roofC = useLoader(OBJLoader, '/models/roof_edge/roof_edge_corner.obj');
     // console.log(bA.children[0].geometry);
     const PLANE_X = 3;
     const PLANE_Z = 5;
@@ -283,7 +285,7 @@ const Balks = (props) => {
 
     const drawDownLodge = () => {
         const downLodges = [];
-        lodgeDownData.map((el, index) => (
+        lodgeDownData.forEach((el, index) => (
             downLodges.push(
                 <mesh
                 key={`lodge`+ index} 
@@ -306,7 +308,7 @@ const Balks = (props) => {
 
     const drawUpLodge = () => {
         const upLodges = [];
-        lodgeUpData.map((el, index) => (
+        lodgeUpData.forEach((el, index) => (
             upLodges.push(
                 <mesh
                 key={`lodge-up`+ index} 
@@ -329,7 +331,7 @@ const Balks = (props) => {
 
     const drawUpBalks = () => {
         const upBalks = [];
-        upData.map((el, index) => (
+        upData.forEach((el, index) => (
             upBalks.push(
                 <mesh
                 key={`up`+ index} 
@@ -352,7 +354,7 @@ const Balks = (props) => {
 
     const drawCornerBalks = () => {
         const cornerBalks = [];
-        cornerData.map((el, index) => (
+        cornerData.forEach((el, index) => (
             cornerBalks.push(
                 <group key={'group'+index} position={el.position} rotation={el.rotation}>
                     <mesh
@@ -400,7 +402,7 @@ const Balks = (props) => {
 
     const drawSideBalks = () => {
         const sideBalks = [];
-        sideData.map((el, index) => (
+        sideData.forEach((el, index) => (
             sideBalks.push(
                 <group key={'group'+index} position={el.position} rotation={el.rotation}>
                     <mesh
@@ -443,6 +445,80 @@ const Balks = (props) => {
         return sideBalks;
     }
 
+    const roofData = [
+        {
+            position: [-PLANE_X/2 - 0.18, 2.6, -PLANE_Z/2 - 0.16],
+            rotation: [0, 0, 0],
+            scale: [scaleX, 1, 1],
+            geometry: roofE.children[0].geometry,
+        },
+        {
+            position: [PLANE_X/2 + 0.18, 2.6, PLANE_Z/2 + 0.16],
+            rotation: [0, Math.PI, 0],
+            scale: [scaleX, 1, 1],
+            geometry: roofE.children[0].geometry,
+        },
+        {
+            position: [PLANE_X/2 + 0.18, 2.6, -PLANE_Z/2 - 0.16],
+            rotation: [0, -Math.PI/2, 0],
+            scale: [scaleZ, 1, 1],
+            geometry: roofE.children[0].geometry,
+        },
+        {
+            position: [-PLANE_X/2 - 0.18, 2.6, PLANE_Z/2 + 0.16],
+            rotation: [0, Math.PI/2, 0],
+            scale: [scaleZ, 1, 1],
+            geometry: roofE.children[0].geometry,
+        },
+        ////
+        {
+            position: [PLANE_X/2 + 0.18, 2.6, PLANE_Z/2 + 0.16],
+            rotation: [0, -Math.PI, 0],
+            scale: [1, 1, 1],
+            geometry: roofC.children[0].geometry,
+        },
+        {
+            position: [-PLANE_X/2 - 0.18, 2.6, -PLANE_Z/2 - 0.16],
+            rotation: [0, 0, 0],
+            scale: [1, 1, 1],
+            geometry: roofC.children[0].geometry,
+        },
+        {
+            position: [PLANE_X/2 + 0.18, 2.6, -PLANE_Z/2 - 0.16],
+            rotation: [0, -Math.PI/2, 0],
+            scale: [1, 1, 1],
+            geometry: roofC.children[0].geometry,
+        },
+        {
+            position: [-PLANE_X/2 - 0.18, 2.6, PLANE_Z/2 + 0.16],
+            rotation: [0, Math.PI/2, 0],
+            scale: [1, 1, 1],
+            geometry: roofC.children[0].geometry,
+        }
+    ];
+
+    const drawRoof = () => {
+        const roof = [];
+        roofData.forEach((el, index) => (
+            roof.push(
+                <mesh
+                key={`roof`+ index} 
+                receiveShadow
+                castShadow
+                geometry={el.geometry}
+                position={el.position}
+                scale={el.scale}
+                rotation={el.rotation}
+                >
+                    <meshBasicMaterial 
+                    roughness={1}
+                    color={ "rgb(0, 50, 255)"}
+                    />
+                </mesh>
+            )
+        ))
+        return roof;
+    }//color={index < 4 ? "rgb(0, 50, 255)" : "rgb(255, 50, 0)"}
 
 
     return (
@@ -469,6 +545,33 @@ const Balks = (props) => {
                     color={"rgb(100, 100, 100)"}
                     />
             </mesh>
+            {drawRoof()}
+            {/* <mesh
+                receiveShadow
+                castShadow
+                rotation={[0, 0, 0]}
+                // scale={[scaleX, 1, scaleZ]}
+                // position={[-PLANE_X/2 - 0.18, 2.6, PLANE_Z/2 + 0.18]}
+                geometry={roofE.children[0].geometry}
+                >
+                    <meshBasicMaterial 
+                    roughness={1}
+                    color={"rgb(0, 50, 255)"}
+                    />
+            </mesh>
+            <mesh
+                receiveShadow
+                castShadow
+                rotation={[0, 0, 0]}
+                // scale={[scaleX, 1, scaleZ]}
+                // position={[-PLANE_X/2 - 0.18, 2.6, PLANE_Z/2 + 0.18]}
+                geometry={roofC.children[0].geometry}
+                >
+                    <meshBasicMaterial 
+                    roughness={1}
+                    color={"rgb(255, 50, 0)"}
+                    />
+            </mesh> */}
         </group>
 
     )
