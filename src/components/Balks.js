@@ -7,7 +7,9 @@ const Balks = (props) => {
     const balkCorner = useLoader(OBJLoader, '/models/balk_corner.obj');
     const balkUp = useLoader(OBJLoader, '/models/balk_150x150x1000.obj');
     const lodgeDown = useLoader(OBJLoader, '/models/Lodge_20x200x1000.obj');
-    console.log(lodgeDown);
+    const lodgeBevel = useLoader(OBJLoader, '/models/Lodge_20x190x1000_bevel.obj');
+    const bB = useLoader(OBJLoader, '/models/lodge_150x50x1000.obj');
+    // console.log(lodgeBevel);
     const PLANE_X = 3;
     const PLANE_Z = 5;
 
@@ -84,26 +86,117 @@ const Balks = (props) => {
 
     const lodgeDownData = [
         {
-            position: [-PLANE_X/2 - 0.18, 2.2, -PLANE_Z/2 - 0.18], // -0.18
+            position: [-PLANE_X/2 - 0.18, 2.4, -PLANE_Z/2 - 0.18],
             rotation: [0, 0, 0],
             scale: [scaleX, 1, 1]
         },
         {
-            position: [PLANE_X/2 + 0.18, 2.2, PLANE_Z/2 + 0.18],
+            position: [PLANE_X/2 + 0.18, 2.4, PLANE_Z/2 + 0.18],
             rotation: [0, Math.PI, 0],
-            scale: [scaleX, 1, 2]
+            scale: [scaleX, 1, 1]
         },
         {
-            position: [-PLANE_X/2 - 0.18, 2.2, PLANE_Z/2 + 0.16],
+            position: [-PLANE_X/2 - 0.18, 2.4, PLANE_Z/2 + 0.16],
             rotation: [0, Math.PI/2, 0],
             scale: [scaleZ, 1, 1]
         },
         {
-            position: [PLANE_X/2 + 0.18, 2.2, -PLANE_Z/2 - 0.16],
+            position: [PLANE_X/2 + 0.18, 2.4, -PLANE_Z/2 - 0.16],
             rotation: [0, -Math.PI/2, 0],
             scale: [scaleZ, 1, 1]
         },
     ];
+
+    const lodgeUpData = [
+        {
+            position: [-PLANE_X/2 - 0.16, 2.3, -PLANE_Z/2 - 0.16],
+            rotation: [0, 0, 0],
+            scale: [scaleX - 0.04, 1, 1]
+        },
+        {
+            position: [PLANE_X/2 + 0.16, 2.3, PLANE_Z/2 + 0.16],
+            rotation: [0, Math.PI, 0],
+            scale: [scaleX - 0.04, 1, 1]
+        },
+        {
+            position: [-PLANE_X/2 - 0.16, 2.3, PLANE_Z/2 + 0.14],
+            rotation: [0, Math.PI/2, 0],
+            scale: [scaleZ - 0.04, 1, 1]
+        },
+        {
+            position: [PLANE_X/2 + 0.16, 2.3, -PLANE_Z/2 - 0.14],
+            rotation: [0, -Math.PI/2, 0],
+            scale: [scaleZ - 0.04, 1, 1]
+        },
+    ];
+
+    let bevelData = [];
+    for(let i = 0; i < 28; i++){
+        bevelData.push(
+            {
+                position: [-PLANE_X/2 - 0.16, 2.5, -PLANE_Z/2 - 0.16 + 0.095 + i * 0.19],
+                scale: [1, 1, scaleX - 0.04]
+            }
+        )
+    }
+
+
+    const drawBevel = () => {
+        const bevels = [];
+        bevelData.map((el, index) => (
+            bevels.push(
+                <mesh
+                key={`bevel`+ index} 
+                receiveShadow
+                castShadow
+                geometry={lodgeBevel.children[0].geometry}
+                position={el.position}
+                scale={el.scale}
+                rotation={[0, -Math.PI/2, 0]}
+                >
+                    <meshBasicMaterial 
+                    roughness={1}
+                    color={"rgb(50, 255, 20)"}
+                    />
+                </mesh>
+            )
+        ))
+        return bevels;
+    }
+
+    let bBData = [];
+    for(let i = 0; i < 11; i++){
+        bBData.push(
+            {
+                position: [-PLANE_X/2, 2.35, -PLANE_Z/2 + 0.05 + i*0.485],
+                rotation: [0, 0, 0],
+                scale: [3, 1, 1]
+            },
+        )
+    }
+
+
+    const drawbB = () => {
+        const bb = [];
+        bBData.map((el, index) => (
+            bb.push(
+                <mesh
+                key={`bB`+ index} 
+                receiveShadow
+                castShadow
+                geometry={bB.children[0].geometry}
+                position={el.position}
+                scale={el.scale}
+                >
+                    <meshBasicMaterial 
+                    roughness={1}
+                    color={"rgb(200, 255, 20)"}
+                    />
+                </mesh>
+            )
+        ))
+        return bb;
+    }
 
     const drawDownLodge = () => {
         const downLodges = [];
@@ -126,6 +219,29 @@ const Balks = (props) => {
             )
         ))
         return downLodges;
+    }
+
+    const drawUpLodge = () => {
+        const upLodges = [];
+        lodgeUpData.map((el, index) => (
+            upLodges.push(
+                <mesh
+                key={`lodge-up`+ index} 
+                receiveShadow
+                castShadow
+                geometry={lodgeDown.children[0].geometry}
+                position={el.position}
+                scale={el.scale}
+                rotation={el.rotation}
+                >
+                    <meshBasicMaterial 
+                    roughness={1}
+                    color={"rgb(100, 20, 230)"}
+                    />
+                </mesh>
+            )
+        ))
+        return upLodges;
     }
 
     const drawUpBalks = () => {
@@ -244,20 +360,26 @@ const Balks = (props) => {
         return sideBalks;
     }
 
+
+
     return (
         <group name={"balk"}>
             {drawCornerBalks()}
             {drawSideBalks()}
-            {/* {drawUpBalks()} */}
-            {drawDownLodge()}
+            {drawUpBalks()}
+            {/* {drawDownLodge()} */}
+            {/* {drawUpLodge()} */}
+            {/* {drawBevel()} */}
+            {drawbB()}
             {/* <mesh
                 receiveShadow
                 castShadow
-                geometry={lodgeDown.children[0].geometry}
+                // rotation={[0, 0, 0]}
+                geometry={bB.children[0].geometry}
                 >
                     <meshBasicMaterial 
                     roughness={1}
-                    color={"rgb(0, 255, 230)"}
+                    color={"rgb(200, 255, 20)"}
                     />
             </mesh> */}
         </group>
