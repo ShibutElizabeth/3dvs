@@ -141,8 +141,8 @@ const Scene = (props) => {
             {renderTimbersA()}
             {renderTimbersC()}
             {renderBevels()}
-            {/* {renderRoofEdges()} */}
-            {/* {renderRoofCorners()} */}
+            {renderRoofEdges()}
+            {renderRoofCorners()}
             {renderRuberoid()}
         </group>
     );

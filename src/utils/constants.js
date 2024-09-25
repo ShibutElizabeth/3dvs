@@ -66,7 +66,6 @@ export const generateCornerBalksData = () => {
 export const generateSideBalksData = () => {
     const sideBalksData = [];
 
-
     for (let i = 0; i < 2; i++) {
         const k = getKoefficient(i);
         sideBalksData.push({
@@ -210,19 +209,20 @@ export const generateTimbersCData = () => {
 export const generateRoofEdgesData = () => {
     const roofEdgesData = [];
 
-    const rotations = [0, 2, 1, -1];
+    const rotations = [2, 0, -1, 1];
+    const g = [-1, -1, 1, 1];
     for(let i = 0; i < 4; i++){
         const k = getKoefficient(i);
         const f = i < 2 ? 0 : 1;
         roofEdgesData.push(
             {
                 position: [
-                    k * (HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING),
+                    -k * (HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING),
                     DIMENSIONS.HEIGHT + 2 * DIMENSIONS.DIFFERENCE + SIZES.LODGE.height,
-                    k * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING - 2 * SIZES.LODGE.width)
+                    k * g[i] * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING)
                 ],
                 rotation: [0, rotations[i] * Math.PI/2, 0],
-                scale: [(1 - f) * (DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING) + f * (DIMENSIONS.DEPTH + 2 * (DIMENSIONS.PADDING - SIZES.LODGE.width)), 1, 1]
+                scale: [(1 - f) * (DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING) + f * (DIMENSIONS.DEPTH + 2 * DIMENSIONS.PADDING), 1, 1]
             }
         )
     }
@@ -242,7 +242,7 @@ export const generateRoofCornersData = () => {
                 position: [
                     -k * (HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING),
                     DIMENSIONS.HEIGHT + 2 * DIMENSIONS.DIFFERENCE + SIZES.LODGE.height,
-                    c * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING - SIZES.LODGE.width)
+                    c[i] * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING)
                 ],
                 rotation: [0, rotations[i] * Math.PI/2, 0],
                 scale: [1, 1, 1]
