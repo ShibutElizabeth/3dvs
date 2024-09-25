@@ -1,6 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { useLoader } from '@react-three/fiber';
+import { loadModelsAsync } from '../utils/loaders';
+import {
+    generateCornerBalksData,
+    generateSideBalksData,
+    generatePerimeterBalksData,
+    generateOutsideLodgesData,
+    generateInsideLodgesData,
+    generateBevelsData,
+    generateTimbersBData,
+    generateTimbersAData,
+    generateTimbersCData,
+} from '../utils/constants';
 
 const Balks = (props) => {
     const balk = useLoader(OBJLoader, '/models/balk_150x150x2200.obj');
@@ -13,22 +25,20 @@ const Balks = (props) => {
     const rub = useLoader(OBJLoader, '/models/ruberoid_1000x1000x2.obj');
     const roofE = useLoader(OBJLoader, '/models/roof_edge/roof_edge_1m.obj');
     const roofC = useLoader(OBJLoader, '/models/roof_edge/roof_edge_corner.obj');
-    // console.log(bA.children[0].geometry);
     const PLANE_X = 3;
     const PLANE_Z = 5;
 
+    const [models, setModels] = useState(null);
 
-    const cornerPositions = [
-        [-PLANE_X / 2 + 0.075, 0, -PLANE_Z / 2 + 0.075],  // Левый нижний угол
-        [PLANE_X / 2 - 0.075, 0, -PLANE_Z / 2 + 0.075],   // Правый нижний угол
-        [-PLANE_X / 2 + 0.075, 0, PLANE_Z / 2 - 0.075],   // Левый верхний угол
-        [PLANE_X / 2 - 0.075, 0, PLANE_Z / 2 - 0.075],    // Правый верхний угол
-    ];
-    // Координаты для центра длинных сторон
-    const sidePositions = [
-        [-PLANE_X / 2 + 0.075, 0, 0],  // Середина нижней стороны
-        [PLANE_X / 2 - 0.075, 0, 0]   // Середина верхней стороны
-    ];
+    useEffect(() => {
+        const fetchModels = async () => {
+            const loadedModels = await loadModelsAsync();
+            setModels(loadedModels);
+        };
+        fetchModels();
+    }, []);
+
+    
 
     const cornerData = [
         {
@@ -67,8 +77,8 @@ const Balks = (props) => {
             scale: [3, 1, 1]
         },
         {
-            position: [-PLANE_X/2, 2.2, PLANE_Z/2 - 0.075],
-            rotation: [0, 0, 0],
+            position: [PLANE_X/2, 2.2, PLANE_Z/2 - 0.075],
+            rotation: [0, Math.PI, 0],
             scale: [3, 1, 1]
         },
         {
@@ -100,13 +110,13 @@ const Balks = (props) => {
             scale: [scaleX, 1, 1]
         },
         {
-            position: [-PLANE_X/2 - 0.18, 2.4, PLANE_Z/2 + 0.16],
-            rotation: [0, Math.PI/2, 0],
+            position: [-PLANE_X/2 - 0.16, 2.4, - PLANE_Z/2 - 0.16],
+            rotation: [0, -Math.PI/2, 0],
             scale: [scaleZ, 1, 1]
         },
         {
-            position: [PLANE_X/2 + 0.18, 2.4, -PLANE_Z/2 - 0.16],
-            rotation: [0, -Math.PI/2, 0],
+            position: [PLANE_X/2 + 0.16, 2.4, PLANE_Z/2 + 0.16],
+            rotation: [0, Math.PI/2, 0],
             scale: [scaleZ, 1, 1]
         },
     ];
@@ -242,7 +252,7 @@ const Balks = (props) => {
             bAData.push(
                 {
                     position: [-PLANE_X/2 + (i+1)*0.6, 2.35, -PLANE_Z/2 + 0.05],
-                    // rotation: [0, -Math.PI/2, 0],
+                    rotation: [0, 0, 0],
                     scale: [0.95, 1, 1]
                 },
             )
@@ -250,7 +260,7 @@ const Balks = (props) => {
             bAData.push(
                 {
                     position: [PLANE_X/2 - (i-3)*0.6, 2.35, PLANE_Z/2 + 0.14],
-                    // rotation: [0, -Math.PI/2, 0],
+                    rotation: [0, 0, 0],
                     scale: [0.95, 1, 1]
                 },
             )
@@ -473,7 +483,7 @@ const Balks = (props) => {
         ////
         {
             position: [PLANE_X/2 + 0.18, 2.6, PLANE_Z/2 + 0.16],
-            rotation: [0, -Math.PI, 0],
+            rotation: [0, Math.PI, 0],
             scale: [1, 1, 1],
             geometry: roofC.children[0].geometry,
         },
@@ -518,8 +528,7 @@ const Balks = (props) => {
             )
         ))
         return roof;
-    }//color={index < 4 ? "rgb(0, 50, 255)" : "rgb(255, 50, 0)"}
-
+    }
 
     return (
         <group name={"balk"}>
@@ -528,9 +537,9 @@ const Balks = (props) => {
             {drawUpBalks()}
             {drawDownLodge()}
             {drawUpLodge()}
-            {drawBevel()}
+            {/* {drawBevel()}
             {drawbB()}
-            {drawbC()}
+            {drawbC()} */}
             {drawbA()}
             <mesh
                 receiveShadow
@@ -546,32 +555,6 @@ const Balks = (props) => {
                     />
             </mesh>
             {drawRoof()}
-            {/* <mesh
-                receiveShadow
-                castShadow
-                rotation={[0, 0, 0]}
-                // scale={[scaleX, 1, scaleZ]}
-                // position={[-PLANE_X/2 - 0.18, 2.6, PLANE_Z/2 + 0.18]}
-                geometry={roofE.children[0].geometry}
-                >
-                    <meshBasicMaterial 
-                    roughness={1}
-                    color={"rgb(0, 50, 255)"}
-                    />
-            </mesh>
-            <mesh
-                receiveShadow
-                castShadow
-                rotation={[0, 0, 0]}
-                // scale={[scaleX, 1, scaleZ]}
-                // position={[-PLANE_X/2 - 0.18, 2.6, PLANE_Z/2 + 0.18]}
-                geometry={roofC.children[0].geometry}
-                >
-                    <meshBasicMaterial 
-                    roughness={1}
-                    color={"rgb(255, 50, 0)"}
-                    />
-            </mesh> */}
         </group>
 
     )
