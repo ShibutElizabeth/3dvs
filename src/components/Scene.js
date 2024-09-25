@@ -63,6 +63,38 @@ const Scene = (props) => {
         ));
     };
 
+    const renderBalkGroups = (data, modelKey, color, rotation = [0, 0, 0]) => {
+        return data.map((el, index) => (
+            <group 
+                key={`group-${modelKey}-${index}-${data[index].position[0]}`}
+                position={el.position}
+                rotation={el.rotation}>
+                <mesh
+                    key={`${modelKey}-${index}-${data[index].position[0]}`} 
+                    receiveShadow
+                    castShadow
+                    geometry={models[modelKey].children[0].geometry}>
+                    <meshBasicMaterial roughness={1} color={color} />
+                </mesh>
+                <mesh
+                    key={`cornerBalk-${index}-0`} 
+                    receiveShadow
+                    castShadow
+                    geometry={models.cornerBalk.children[0].geometry}>
+                    <meshBasicMaterial roughness={1} color={color} /> 
+                </mesh>
+                <mesh
+                    key={`cornerBalk-${index}-1`}
+                    receiveShadow
+                    castShadow
+                    rotation={rotation}
+                    geometry={models.cornerBalk.children[0].geometry}>
+                    <meshBasicMaterial roughness={1} color={"rgb(255, 255, 230)"} /> 
+                </mesh>
+             </group>
+        ));
+    };
+
     // Рендеринг разных типов объектов
     const renderTimbersB = () => renderObjects(timbersBData, 'timber', "rgb(200, 255, 20)");
     const renderTimbersA = () => renderObjects(timbersAData, 'timberA', "rgb(60, 100, 100)", [0, Math.PI / 2, 0]);
@@ -72,8 +104,8 @@ const Scene = (props) => {
     const renderOutsideLodges = () => renderObjects(outsideLodgesData, 'lodge', "rgb(100, 20, 230)");
 
     const renderPerimeterBalks = () => renderObjects(perimeterBalksData, 'perimeterBalk', "rgb(255, 0, 230)");
-    const renderCornerBalks = () => renderObjects(cornerBalksData, 'balk', "rgb(255, 255, 230)");
-    const renderSideBalks = () => renderObjects(sideBalksData, 'balk', "rgb(255, 255, 230)");
+    const renderCornerBalks = () => renderBalkGroups(cornerBalksData, 'balk', "rgb(255, 255, 230)", [0, -Math.PI/2, 0]);
+    const renderSideBalks = () => renderBalkGroups(sideBalksData, 'balk', "rgb(255, 255, 230)", [0, -Math.PI, 0]);
 
     const renderBevels = () => renderObjects(bevelsData, 'bevel', "rgb(50, 255, 20)");
     const renderRoofEdges = () => renderObjects(roofEdgesData, 'roofEdge', "rgb(0, 50, 255)");
@@ -100,18 +132,18 @@ const Scene = (props) => {
     return (
         <group>
             
-            {/* {renderCornerBalks()} */}
+            {renderCornerBalks()}
             {renderSideBalks()}
-            {/* {renderPerimeterBalks()} */}
-            {/* {renderInsideLodges()} */}
-            {/* {renderOutsideLodges()} */}
-            {/* {renderTimbersB()} */}
-            {/* {renderTimbersA()} */}
-            {/* {renderTimbersC()} */}
-            {/* {renderBevels()} */}
+            {renderPerimeterBalks()}
+            {renderInsideLodges()}
+            {renderOutsideLodges()}
+            {renderTimbersB()}
+            {renderTimbersA()}
+            {renderTimbersC()}
+            {renderBevels()}
             {/* {renderRoofEdges()} */}
             {/* {renderRoofCorners()} */}
-            {/* {renderRuberoid()} */}
+            {renderRuberoid()}
         </group>
     );
 };

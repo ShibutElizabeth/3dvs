@@ -28,15 +28,15 @@ export const SIZES = {
 // Общие данные
 export const RUBEROID_DATA = {
     position: [
-        -HALF_DIMENSIONS.WIDTH - DIMENSIONS.DIFFERENCE,
+        -HALF_DIMENSIONS.WIDTH - DIMENSIONS.PADDING,
         DIMENSIONS.HEIGHT + 2 * DIMENSIONS.DIFFERENCE + SIZES.LODGE.height,
-        HALF_DIMENSIONS.DEPTH + DIMENSIONS.DIFFERENCE,
+        HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING,
     ],
     rotation: [0, 0, 0],
     scale: [
         DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING,
         1,
-        DIMENSIONS.DEPTH + 2 * (DIMENSIONS.PADDING - SIZES.LODGE.width),
+        DIMENSIONS.DEPTH + 2 * DIMENSIONS.PADDING,
     ],
 };
 
@@ -47,11 +47,16 @@ export const getKoefficient = (i) => (i % 2 === 0 ? -1 : 1);
 export const generateCornerBalksData = () => {
     const cornerBalksData = [];
     const rotations = [0, -1, 1, 2];
+    const c = [-1, -1, 1, 1];
     
     for (let i = 0; i < 4; i++) {
         const k = getKoefficient(i);
         cornerBalksData.push({
-            position: [k * (HALF_DIMENSIONS.WIDTH - SIZES.BALK.hWidth), 0, -k * (HALF_DIMENSIONS.DEPTH - SIZES.BALK.hWidth)],
+            position: [
+                k * (HALF_DIMENSIONS.WIDTH - SIZES.BALK.hWidth),
+                0,
+                c[i] * (HALF_DIMENSIONS.DEPTH - SIZES.BALK.hWidth)
+            ],
             rotation: [0, rotations[i] * Math.PI / 2, 0],
         });
     }
@@ -83,7 +88,7 @@ export const generatePerimeterBalksData = () => {
             position: [
                 k * (HALF_DIMENSIONS.WIDTH - f * SIZES.BALK.hWidth),
                 DIMENSIONS.HEIGHT,
-                k * (HALF_DIMENSIONS.DEPTH - 0.5 * (f + 1) * SIZES.BALK.hWidth),
+                k * (HALF_DIMENSIONS.DEPTH - (f + 1) * SIZES.BALK.hWidth),
             ],
             rotation: [0, rotations[i] * Math.PI / 2, 0],
             scale: [DIMENSIONS.WIDTH + f * 1.7, 1, 1],
@@ -143,6 +148,7 @@ export const generateBevelsData = (length = 28) => {
                 height,
                 -HALF_DIMENSIONS.DEPTH - DIMENSIONS.PADDING + SIZES.BEVEL.height + SIZES.BEVEL.width * (0.5 + i),
             ],
+            rotation: [0, -Math.PI/2, 0],
             scale: [1, 1, DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING - 2 * SIZES.BEVEL.height],
         });
     }
@@ -190,11 +196,12 @@ export const generateTimbersCData = () => {
         const k = getKoefficient(i);
         timbersCData.push({
             position: [
-                k * (HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING),
+                k * (HALF_DIMENSIONS.WIDTH - SIZES.TIMBER.width/2),
                 DIMENSIONS.HEIGHT + SIZES.BALK.width,
-                k * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING),
+                k * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING - 2 * SIZES.LODGE.width),
             ],
-            scale: [DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING, 1, 1],
+            rotation: [0, k * Math.PI/2, 0],
+            scale: [DIMENSIONS.DEPTH + 2 * (DIMENSIONS.PADDING - SIZES.LODGE.width) - 2 * SIZES.LODGE.width, 1, 1],
         });
     }
     return timbersCData;
