@@ -1,13 +1,9 @@
 import React from "react";
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
-import { useLoader } from '@react-three/fiber'
 import { DoubleSide } from "three";
-import Balks from "./Balks";
+import Scene from "./Scene";
 
 
 const Building = (props) => {
-    const obj = useLoader(OBJLoader, '/models/balk_150x150x2200.obj')
-    console.log(obj)
 
     return (
         <group name={"group"}>
@@ -15,9 +11,11 @@ const Building = (props) => {
                 <planeGeometry />
                 <meshBasicMaterial color="gray" side={DoubleSide} />
             </mesh>
-            <group>
-                <Balks/>
-            </group>
+            <Scene />
+            {/* <group> */}
+                
+                {/* <Balks/> */}
+            {/* </group> */}
         </group>
     )
 }

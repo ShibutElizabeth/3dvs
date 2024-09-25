@@ -10,7 +10,6 @@ export const loadModelsAsync = async () => {
         });
     };
 
-
     const [balk, cornerBalk, perimeterBalk, lodge, bevel, timber, timberA, ruberoid, roofEdge, roofCorner] = await Promise.all([
         loadModel(path.balk),
         loadModel(path.cornerBalk),
