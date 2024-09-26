@@ -39,6 +39,10 @@ const Building = (props) => {
     const [currentSideBalksData, setCurrentSideBalksData] = useState(sideBalksData);
     const [currentPerimeterBalksData, setCurrentPerimeterBalksData] = useState(perimeterBalksData);
     const [currentOutsideLodgesData, setCurrentOutsideLodgesData] = useState(outsideLodgesData);
+    const [currentInsideLodgesData, setCurrentInsideLodgesData] = useState(insideLodgesData);
+    const [currentBevelsData, setCurrentBevelsData] = useState(bevelsData);
+    const [currentTimbersBData, setCurrentTimbersBData] = useState(timbersBData);
+
 
     useEffect(() => {
         const fetchModels = async () => {
@@ -61,39 +65,30 @@ const Building = (props) => {
             setCurrentPerimeterBalksData(updatedPerimeterBalksData);
             const updatedOutsideLodgesData = generateOutsideLodgesData(w, l);
             setCurrentOutsideLodgesData(updatedOutsideLodgesData);
+            const updatedInsideLodgesData = generateInsideLodgesData(w, l);
+            setCurrentInsideLodgesData(updatedInsideLodgesData);
+            const updatedBevelsData = generateBevelsData(w, l);
+            setCurrentBevelsData(updatedBevelsData);
+            const updatedTimbersBData = generateTimbersBData(w, l, length);
+            setCurrentTimbersBData(updatedTimbersBData);
             
             setCurrentWidth(width);
             setCurrentLength(length);
         }
     }, [width, length])
 
-    // useEffect(() => {
-    //     if(length !== currentLength){
-    //         const w = (width - 3)/2;
-    //         const l = (length - 5)/2;
-    //         const updatedCornerBalksData = generateCornerBalksData(w, l);
-    //         setCurrentCornerBalksData(updatedCornerBalksData);
-    //         const updatedPerimeterBalksData = generatePerimeterBalksData(w, l);
-    //         setCurrentPerimeterBalksData(updatedPerimeterBalksData);
-    //         const updatedOutsideLodgesData = generateOutsideLodgesData(w, l);
-    //         setCurrentOutsideLodgesData(updatedOutsideLodgesData);
-
-    //         setCurrentLength(length);
-    //     }
-    // }, [length])
-
-    const renderTimbersB = () => renderObjects(models, timbersBData, 'timber', "rgb(200, 255, 20)");
+    const renderTimbersB = () => renderObjects(models, currentTimbersBData, 'timber', "rgb(200, 255, 20)");
     const renderTimbersA = () => renderObjects(models, timbersAData, 'timberA', "rgb(60, 100, 100)", [0, Math.PI / 2, 0]);
     const renderTimbersC = () => renderObjects(models, timbersCData, 'timber', "rgb(200, 75, 70)");
 
-    const renderInsideLodges = () => renderObjects(models, insideLodgesData, 'lodge', "rgb(0, 255, 230)");
+    const renderInsideLodges = () => renderObjects(models, currentInsideLodgesData, 'lodge', "rgb(0, 255, 230)");
     const renderOutsideLodges = () => renderObjects(models, currentOutsideLodgesData, 'lodge', "rgb(100, 20, 230)");
 
     const renderPerimeterBalks = () => renderObjects(models, currentPerimeterBalksData, 'perimeterBalk', "rgb(255, 0, 230)");
     const renderCornerBalks = () => renderBalkGroups(models, currentCornerBalksData, 'balk', "rgb(255, 255, 230)", [0, -Math.PI/2, 0], true);
     const renderSideBalks = () => renderBalkGroups(models, currentSideBalksData, 'balk', "rgb(255, 255, 230)", [0, -Math.PI, 0]);
 
-    const renderBevels = () => renderObjects(models, bevelsData, 'bevel', "rgb(50, 255, 20)");
+    const renderBevels = () => renderObjects(models, currentBevelsData, 'bevel', "rgb(50, 255, 20)");
     const renderRoofEdges = () => renderObjects(models, roofEdgesData, 'roofEdge', "rgb(0, 50, 255)");
     const renderRoofCorners = () => renderObjects(models, roofCornersData, 'roofCorner', "rgb(0, 50, 255)");
 
@@ -121,15 +116,15 @@ const Building = (props) => {
             {renderCornerBalks()}
             {renderSideBalks()}
             {renderPerimeterBalks()}
-            {/* {renderInsideLodges()} */}
-            {renderOutsideLodges()}
-            {/* {renderTimbersB()}
-            {renderTimbersA()}
-            {renderTimbersC()}
-            {renderBevels()}
-            {renderRoofEdges()}
-            {renderRoofCorners()}
-            {renderRuberoid()} */}
+            {renderInsideLodges()}
+            {/* {renderOutsideLodges()} */}
+            {renderTimbersB()}
+            {/* {renderTimbersA()} */}
+            {/* {renderTimbersC()} */}
+            {/* {renderBevels()} */}
+            {/* {renderRoofEdges()} */}
+            {/* {renderRoofCorners()} */}
+            {/* {renderRuberoid()} */}
         </group>
     );
 };

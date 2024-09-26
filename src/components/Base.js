@@ -2,12 +2,13 @@ import React from "react";
 import { useControls } from 'leva';
 import Building from "./Building";
 import { useEffect, useRef, useState } from "react";
+import { SIZES } from "../utils/constants";
 
 const Base = () => {
 
     const { roofLength, roofWidth } = useControls({
-        roofLength: { value: 5, min: 3, max: 7, step: 0.5 },
-        roofWidth: { value: 3, min: 2.5, max: 6, step: 0.5 },
+        roofLength: { value: 5, min: 3, max: 7, step: SIZES.BEVEL.width },
+        roofWidth: { value: 3, min: 2.5, max: 6, step: SIZES.BEVEL.width },
     });
     const [currentWidth, setCurrentWidth] = useState(roofWidth);
     const [currentLength, setCurrentLength] = useState(roofLength);

@@ -121,7 +121,7 @@ export const generateOutsideLodgesData = (w = 0, l = 0) => {
     return outsideLodgesData;
 };
 
-export const generateInsideLodgesData = () => {
+export const generateInsideLodgesData = (w = 0, l = 0) => {
     const insideLodgesData = [];
     const rotations = [0, 2, 1, -1];
     
@@ -130,46 +130,55 @@ export const generateInsideLodgesData = () => {
         const f = i < 2 ? 0 : 1;
         insideLodgesData.push({
             position: [
-                k * (HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING - SIZES.LODGE.width),
+                k * (HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING - SIZES.LODGE.width + w),
                 DIMENSIONS.HEIGHT + SIZES.LODGE.height / 2,
-                k * (1 - 2 * f) * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING - (1 + f) * SIZES.LODGE.width),
+                k * (1 - 2 * f) * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING - (1 + f) * SIZES.LODGE.width + l),
             ],
             rotation: [0, rotations[i] * Math.PI / 2, 0],
-            scale: [(1 - f) * (DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING) + f * (DIMENSIONS.DEPTH + 2 * (DIMENSIONS.PADDING - SIZES.LODGE.width)) - 2 * SIZES.LODGE.width, 1, 1],
+            scale: [
+                (1 - f) * (DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING + 2 * w) 
+                + f * (DIMENSIONS.DEPTH + 2 * (DIMENSIONS.PADDING - SIZES.LODGE.width) + 2 * f* l) 
+                - 2 * SIZES.LODGE.width, 
+                1, 
+                1
+            ],
         });
     }
     return insideLodgesData;
 };
 
-export const generateBevelsData = (length = 28) => {
+export const generateBevelsData = (w = 0, l = 0) => {
+    const defaultCoverLength = DIMENSIONS.DEPTH + 2 * (DIMENSIONS.PADDING - SIZES.LODGE.width)
+    const length = Math.round((defaultCoverLength + 2 * l) / SIZES.BEVEL.width);
     const bevelsData = [];
     const height = DIMENSIONS.HEIGHT + DIMENSIONS.DIFFERENCE + SIZES.LODGE.height;
-    
     for (let i = 0; i < length; i++) {
         bevelsData.push({
             position: [
-                -(HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING - SIZES.BEVEL.height),
+                -(HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING - SIZES.BEVEL.height + w),
                 height,
-                -HALF_DIMENSIONS.DEPTH - DIMENSIONS.PADDING + SIZES.BEVEL.height + SIZES.BEVEL.width * (0.5 + i),
+                -HALF_DIMENSIONS.DEPTH - DIMENSIONS.PADDING + SIZES.BEVEL.height + SIZES.BEVEL.width * (0.5 + i) - l,
             ],
             rotation: [0, -Math.PI/2, 0],
-            scale: [1, 1, DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING - 2 * SIZES.BEVEL.height],
+            scale: [1, 1, DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING - 2 * SIZES.BEVEL.height + 2*w],
         });
     }
     return bevelsData;
 };
 
-export const generateTimbersBData = (length = 11) => {
+export const generateTimbersBData = (w = 0, l = 0) => {
+    const length = 11; 
+    const f = l === 0 ? 0 : (2 * l / (length - 1));
     const timbersBData = [];
     
     for (let i = 0; i < length; i++) {
         timbersBData.push({
             position: [
-                -(HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING - 2 * SIZES.LODGE.width),
+                -(HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING - 2 * SIZES.LODGE.width + w),
                 DIMENSIONS.HEIGHT + SIZES.BALK.width,
-                -HALF_DIMENSIONS.DEPTH + SIZES.TIMBER.width + i * DIMENSIONS.TIMBER_B_DIFFERENCE,
+                -HALF_DIMENSIONS.DEPTH + SIZES.TIMBER.width + i * (DIMENSIONS.TIMBER_B_DIFFERENCE + f) - l,
             ],
-            scale: [DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING - 4 * SIZES.LODGE.width, 1, 1],
+            scale: [DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING - 4 * SIZES.LODGE.width + 2 * w, 1, 1],
         });
     }
     return timbersBData;
