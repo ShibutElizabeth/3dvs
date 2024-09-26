@@ -11,6 +11,8 @@ export const path = {
     roofCorner: '/models/roof_edge/roof_edge_corner.obj',
     roofTexture: '/textures/roof_texture.jpg',
     woodTexture: '/textures/texture_wood.jpg',
+    roofNormalMap: '/textures/roof_texture_normal_map.jpg',
+    woodNormalMap: '/textures/texture_wood_normal.jpg'
 }
 
 export const colors = {

@@ -35,10 +35,12 @@ export const loadModelsAsync = async () => {
 export const loadTexturesAsync = async () => {
     const loader = new TextureLoader();
 
-    const [wood, roof] = await Promise.all([
+    const [wood, roof, woodNormal, roofNormal] = await Promise.all([
         loader.loadAsync(path.woodTexture),
         loader.loadAsync(path.roofTexture),
+        loader.loadAsync(path.woodNormalMap),
+        loader.loadAsync(path.roofNormalMap),
     ]);
 
-    return { wood, roof };
+    return { wood, roof, woodNormal, roofNormal };
 };
