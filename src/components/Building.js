@@ -44,6 +44,8 @@ const Building = (props) => {
     const [currentTimbersBData, setCurrentTimbersBData] = useState(timbersBData);
     const [currentTimbersAData, setCurrentTimbersAData] = useState(timbersAData);
     const [currentTimbersCData, setCurrentTimbersCData] = useState(timbersCData);
+    const [currentRoofEdgesData, setCurrentRoofEdgesData] = useState(roofEdgesData);
+    const [currentRoofCornersData, setCurrentRoofCornersData] = useState(roofCornersData);
 
 
     useEffect(() => {
@@ -77,6 +79,10 @@ const Building = (props) => {
             setCurrentTimbersAData(updatedTimbersAData);
             const updatedTimbersCData = generateTimbersCData(w, l);
             setCurrentTimbersCData(updatedTimbersCData);
+            const updatedRoofCornersData = generateRoofCornersData(w, l);
+            setCurrentRoofCornersData(updatedRoofCornersData);
+            const updatedRoofEdgesData = generateRoofEdgesData(w, l);
+            setCurrentRoofEdgesData(updatedRoofEdgesData);
             
             setCurrentWidth(width);
             setCurrentLength(length);
@@ -95,8 +101,8 @@ const Building = (props) => {
     const renderSideBalks = () => renderBalkGroups(models, currentSideBalksData, 'balk', "rgb(255, 255, 230)", [0, -Math.PI, 0]);
 
     const renderBevels = () => renderObjects(models, currentBevelsData, 'bevel', "rgb(50, 255, 20)");
-    const renderRoofEdges = () => renderObjects(models, roofEdgesData, 'roofEdge', "rgb(0, 50, 255)");
-    const renderRoofCorners = () => renderObjects(models, roofCornersData, 'roofCorner', "rgb(0, 50, 255)");
+    const renderRoofEdges = () => renderObjects(models, currentRoofEdgesData, 'roofEdge', "rgb(0, 50, 255)");
+    const renderRoofCorners = () => renderObjects(models, currentRoofCornersData, 'roofCorner', "rgb(0, 50, 255)");
 
     const renderRuberoid = () => (
         <mesh
@@ -125,11 +131,11 @@ const Building = (props) => {
             {renderInsideLodges()}
             {/* {renderOutsideLodges()} */}
             {/* {renderTimbersB()} */}
-            {renderTimbersA()}
+            {/* {renderTimbersA()} */}
             {/* {renderTimbersC()} */}
             {/* {renderBevels()} */}
-            {/* {renderRoofEdges()} */}
-            {/* {renderRoofCorners()} */}
+            {renderRoofEdges()}
+            {renderRoofCorners()}
             {/* {renderRuberoid()} */}
         </group>
     );

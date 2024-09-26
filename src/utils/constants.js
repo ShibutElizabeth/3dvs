@@ -204,25 +204,25 @@ export const generateTimbersAData = (w = 0, l = 0) => {
     return timbersAData;
 };
 
-export const generateTimbersCData = () => {
+export const generateTimbersCData = (w = 0, l = 0) => {
     const timbersCData = [];
     
     for (let i = 0; i < 2; i++) {
         const k = getKoefficient(i);
         timbersCData.push({
             position: [
-                k * (HALF_DIMENSIONS.WIDTH - SIZES.TIMBER.width/2),
+                k * (HALF_DIMENSIONS.WIDTH - SIZES.TIMBER.width/2 + w),
                 DIMENSIONS.HEIGHT + SIZES.BALK.width,
-                k * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING - 2 * SIZES.LODGE.width),
+                k * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING - 2 * SIZES.LODGE.width + l),
             ],
             rotation: [0, k * Math.PI/2, 0],
-            scale: [DIMENSIONS.DEPTH + 2 * (DIMENSIONS.PADDING - SIZES.LODGE.width) - 2 * SIZES.LODGE.width, 1, 1],
+            scale: [DIMENSIONS.DEPTH + 2 * (DIMENSIONS.PADDING - SIZES.LODGE.width) - 2 * SIZES.LODGE.width + 2 * l, 1, 1],
         });
     }
     return timbersCData;
 };
 
-export const generateRoofEdgesData = () => {
+export const generateRoofEdgesData = (w = 0, l = 0) => {
     const roofEdgesData = [];
 
     const rotations = [2, 0, -1, 1];
@@ -233,12 +233,12 @@ export const generateRoofEdgesData = () => {
         roofEdgesData.push(
             {
                 position: [
-                    -k * (HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING),
+                    -k * (HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING + w),
                     DIMENSIONS.HEIGHT + 2 * DIMENSIONS.DIFFERENCE + SIZES.LODGE.height,
-                    k * g[i] * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING)
+                    k * g[i] * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING + l)
                 ],
                 rotation: [0, rotations[i] * Math.PI/2, 0],
-                scale: [(1 - f) * (DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING) + f * (DIMENSIONS.DEPTH + 2 * DIMENSIONS.PADDING), 1, 1]
+                scale: [(1 - f) * (DIMENSIONS.WIDTH + 2 * (DIMENSIONS.PADDING + w)) + f * (DIMENSIONS.DEPTH + 2 * (DIMENSIONS.PADDING + f *l)), 1, 1]
             }
         )
     }
@@ -246,7 +246,7 @@ export const generateRoofEdgesData = () => {
     return roofEdgesData;
 }
 
-export const generateRoofCornersData = () => {
+export const generateRoofCornersData = (w = 0, l = 0) => {
     const roofCornersData = [];
 
     const rotations = [-2, 0, -1, 1];
@@ -256,9 +256,9 @@ export const generateRoofCornersData = () => {
         roofCornersData.push(
             {
                 position: [
-                    -k * (HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING),
+                    -k * (HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING + w),
                     DIMENSIONS.HEIGHT + 2 * DIMENSIONS.DIFFERENCE + SIZES.LODGE.height,
-                    c[i] * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING)
+                    c[i] * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING + l)
                 ],
                 rotation: [0, rotations[i] * Math.PI/2, 0],
                 scale: [1, 1, 1]
