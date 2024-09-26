@@ -8,5 +8,7 @@ export const path = {
     timberA: '/models/lodge_150x50x200.obj',
     ruberoid: '/models/ruberoid_1000x1000x2.obj',
     roofEdge: '/models/roof_edge/roof_edge_1m.obj',
-    roofCorner: '/models/roof_edge/roof_edge_corner.obj'
+    roofCorner: '/models/roof_edge/roof_edge_corner.obj',
+    roofTexture: '/textures/roof_texture.jpg',
+    woodTexture: '/textures/texture_wood.jpg',
 }

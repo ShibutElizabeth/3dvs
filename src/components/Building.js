@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { loadModelsAsync } from '../utils/loaders';
+import { loadModelsAsync, loadTexturesAsync } from '../utils/loaders';
 import {
     generateCornerBalksData,
     generateSideBalksData,
@@ -32,6 +32,7 @@ const Building = (props) => {
     const ruberoidData = generateRuberoidData();
 
     const [models, setModels] = useState(null);
+    const [textures, setTextures] = useState(null);
     const [loaded, setLoaded] = useState(false);
     const [currentWidth, setCurrentWidth] = useState(width);
     const [currentLength, setCurrentLength] = useState(length);
@@ -54,6 +55,13 @@ const Building = (props) => {
             setModels(loadedModels);
             setLoaded(true);
         };
+        const fetchTextures = async () => {
+            const loadedTextures = await loadTexturesAsync();
+            setTextures(loadedTextures);
+            console.log(loadedTextures)
+        };
+        
+        fetchTextures();
         fetchModels();
     }, []);
 
@@ -91,24 +99,23 @@ const Building = (props) => {
         }
     }, [width, length])
 
-    const renderTimbersB = () => renderObjects(models, currentTimbersBData, 'timber', "rgb(200, 255, 20)");
-    const renderTimbersA = () => renderObjects(models, currentTimbersAData, 'timberA', "rgb(60, 100, 100)", [0, Math.PI / 2, 0]);
-    const renderTimbersC = () => renderObjects(models, currentTimbersCData, 'timber', "rgb(200, 75, 70)");
+    const renderTimbersB = () => renderObjects(models, currentTimbersBData, 'timber', textures, "rgb(200, 255, 20)");
+    const renderTimbersA = () => renderObjects(models, currentTimbersAData, 'timberA', textures, [0, Math.PI / 2, 0], "rgb(60, 100, 100)");
+    const renderTimbersC = () => renderObjects(models, currentTimbersCData, 'timber', textures, "rgb(200, 75, 70)");
 
-    const renderInsideLodges = () => renderObjects(models, currentInsideLodgesData, 'lodge', "rgb(0, 255, 230)");
-    const renderOutsideLodges = () => renderObjects(models, currentOutsideLodgesData, 'lodge', "rgb(100, 20, 230)");
+    const renderInsideLodges = () => renderObjects(models, currentInsideLodgesData, 'lodge', textures, "rgb(0, 255, 230)");
+    const renderOutsideLodges = () => renderObjects(models, currentOutsideLodgesData, 'lodge', textures, "rgb(100, 20, 230)");
 
-    const renderPerimeterBalks = () => renderObjects(models, currentPerimeterBalksData, 'perimeterBalk', "rgb(255, 0, 230)");
-    const renderCornerBalks = () => renderBalkGroups(models, currentCornerBalksData, 'balk', "rgb(255, 255, 230)", [0, -Math.PI/2, 0], true);
-    const renderSideBalks = () => renderBalkGroups(models, currentSideBalksData, 'balk', "rgb(255, 255, 230)", [0, -Math.PI, 0]);
+    const renderPerimeterBalks = () => renderObjects(models, currentPerimeterBalksData, 'perimeterBalk', textures, "rgb(255, 0, 230)");
+    const renderCornerBalks = () => renderBalkGroups(models, currentCornerBalksData, 'balk', textures, "rgb(255, 255, 230)", [0, -Math.PI/2, 0], textures);
+    const renderSideBalks = () => renderBalkGroups(models, currentSideBalksData, 'balk', textures, "rgb(255, 255, 230)", [0, -Math.PI, 0], textures);
 
-    const renderBevels = () => renderObjects(models, currentBevelsData, 'bevel', "rgb(50, 255, 20)");
-    const renderRoofEdges = () => renderObjects(models, currentRoofEdgesData, 'roofEdge', "rgb(0, 50, 255)");
-    const renderRoofCorners = () => renderObjects(models, currentRoofCornersData, 'roofCorner', "rgb(0, 50, 255)");
+    const renderBevels = () => renderObjects(models, currentBevelsData, 'bevel', textures, "rgb(50, 255, 20)");
+    const renderRoofEdges = () => renderObjects(models, currentRoofEdgesData, 'roofEdge', textures, "rgb(0, 50, 255)");
+    const renderRoofCorners = () => renderObjects(models, currentRoofCornersData, 'roofCorner', textures, "rgb(0, 50, 255)");
     
-    const renderRuberoid = () => renderRuberoidMesh(models, currentRuberoidData, 'ruberoid', "rgb(100, 100, 100)");
+    const renderRuberoid = () => renderRuberoidMesh(models, currentRuberoidData, 'ruberoid', textures, "rgb(100, 100, 100)");
 
-    
 
     if(!loaded){
         return <></>

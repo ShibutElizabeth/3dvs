@@ -1,14 +1,9 @@
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { path } from './paths';
+import { TextureLoader } from 'three';
 
 export const loadModelsAsync = async () => {
     const loader = new OBJLoader();
-
-    const loadModel = (url) => {
-        return new Promise((resolve, reject) => {
-            loader.load(url, resolve, undefined, reject);
-        });
-    };
 
     const [balk, cornerBalk, perimeterBalk, lodge, bevel, timber, timberA, ruberoid, roofEdge, roofCorner] = await Promise.all([
         loader.loadAsync(path.balk),
@@ -23,9 +18,6 @@ export const loadModelsAsync = async () => {
         loader.loadAsync(path.roofCorner),
     ]);
 
-    // const balkd = await loader.loadAsync(path.balk);
-    // console.log()
-
     return {
         balk,
         cornerBalk,
@@ -38,4 +30,16 @@ export const loadModelsAsync = async () => {
         roofEdge,
         roofCorner
     };
+};
+
+export const loadTexturesAsync = async () => {
+    const loader = new TextureLoader();
+
+
+    const [wood, roof] = await Promise.all([
+        loader.loadAsync(path.woodTexture),
+        loader.loadAsync(path.roofTexture),
+    ]);
+
+    return { wood, roof };
 };

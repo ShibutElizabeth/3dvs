@@ -1,6 +1,6 @@
 
 
-export const renderObjects = (models, data, modelKey, color, rotation = [0, 0, 0]) => {
+export const renderObjects = (models, data, modelKey, textures, rotation = [0, 0, 0], color) => {
     return data.map((el, index) => (
         <mesh
             key={`${modelKey}-${index}-${data[index].position[0]}`}
@@ -11,12 +11,12 @@ export const renderObjects = (models, data, modelKey, color, rotation = [0, 0, 0
             scale={el.scale}
             rotation={el.rotation || rotation}
         >
-            <meshBasicMaterial roughness={1} color={color} />
+            <meshPhysicalMaterial roughness={1} map={textures.wood} />
         </mesh>
     ));
 };
 
-export const renderBalkGroups = (models, data, modelKey, color, rotation = [0, 0, 0]) => {
+export const renderBalkGroups = (models, data, modelKey, textures, rotation = [0, 0, 0], color) => {
     return data.map((el, index) => (
         <group 
             key={`group-${modelKey}-${index}-${data[index].position[0]}`}
@@ -27,14 +27,14 @@ export const renderBalkGroups = (models, data, modelKey, color, rotation = [0, 0
                 receiveShadow
                 castShadow
                 geometry={models[modelKey].children[0].geometry}>
-                <meshBasicMaterial roughness={1} color={color} />
+                <meshPhysicalMaterial roughness={1} map={textures.wood} />
             </mesh>
             <mesh
                 key={`cornerBalk-${index}-0`} 
                 receiveShadow
                 castShadow
                 geometry={models.cornerBalk.children[0].geometry}>
-                <meshBasicMaterial roughness={1} color={color} /> 
+                <meshPhysicalMaterial roughness={1} map={textures.wood} />
             </mesh>
             <mesh
                 key={`cornerBalk-${index}-1`}
@@ -42,13 +42,13 @@ export const renderBalkGroups = (models, data, modelKey, color, rotation = [0, 0
                 castShadow
                 rotation={rotation}
                 geometry={models.cornerBalk.children[0].geometry}>
-                <meshBasicMaterial roughness={1} color={"rgb(255, 255, 230)"} /> 
+                <meshPhysicalMaterial roughness={1} map={textures.wood} />
             </mesh>
          </group>
     ));
 };
 
-export const renderRuberoidMesh = (models, data, modelKey, color) => (
+export const renderRuberoidMesh = (models, data, modelKey, textures, color) => (
     <mesh
         key={`${modelKey}-0`}
         receiveShadow
@@ -58,6 +58,6 @@ export const renderRuberoidMesh = (models, data, modelKey, color) => (
         scale={data.scale}
         rotation={data.rotation}
     >
-        <meshBasicMaterial roughness={1} color={"rgb(100, 100, 100)"} />
+        <meshPhysicalMaterial roughness={1} map={textures.roof} />
     </mesh>
 );
