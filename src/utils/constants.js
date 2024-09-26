@@ -184,15 +184,17 @@ export const generateTimbersBData = (w = 0, l = 0) => {
     return timbersBData;
 };
 
-export const generateTimbersAData = (length = 8) => {
+export const generateTimbersAData = (w = 0, l = 0) => {
+    const length = 8;
     const timbersAData = [];
     const halfLength = length / 2;
+    const f = w === 0 ? 0 :  2* w / (halfLength+1);
     
     for (let i = 0; i < length; i++) {
         const k = i < halfLength ? [1, 1, 0.05] : [-1, -3, -0.14];
         timbersAData.push({
             position: [
-                -k[0] * (HALF_DIMENSIONS.WIDTH - (i + k[1]) * DIMENSIONS.TIMBER_A_DIFFERENCE),
+                -k[0] * (HALF_DIMENSIONS.WIDTH - (i + k[1]) * (DIMENSIONS.TIMBER_A_DIFFERENCE + f) + w),
                 DIMENSIONS.HEIGHT + SIZES.BALK.width,
                 -k[0] * (HALF_DIMENSIONS.DEPTH - k[2]),
             ],

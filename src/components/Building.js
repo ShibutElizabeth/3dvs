@@ -42,6 +42,8 @@ const Building = (props) => {
     const [currentInsideLodgesData, setCurrentInsideLodgesData] = useState(insideLodgesData);
     const [currentBevelsData, setCurrentBevelsData] = useState(bevelsData);
     const [currentTimbersBData, setCurrentTimbersBData] = useState(timbersBData);
+    const [currentTimbersAData, setCurrentTimbersAData] = useState(timbersAData);
+    const [currentTimbersCData, setCurrentTimbersCData] = useState(timbersCData);
 
 
     useEffect(() => {
@@ -69,8 +71,12 @@ const Building = (props) => {
             setCurrentInsideLodgesData(updatedInsideLodgesData);
             const updatedBevelsData = generateBevelsData(w, l);
             setCurrentBevelsData(updatedBevelsData);
-            const updatedTimbersBData = generateTimbersBData(w, l, length);
+            const updatedTimbersBData = generateTimbersBData(w, l);
             setCurrentTimbersBData(updatedTimbersBData);
+            const updatedTimbersAData = generateTimbersAData(w, l);
+            setCurrentTimbersAData(updatedTimbersAData);
+            const updatedTimbersCData = generateTimbersCData(w, l);
+            setCurrentTimbersCData(updatedTimbersCData);
             
             setCurrentWidth(width);
             setCurrentLength(length);
@@ -78,8 +84,8 @@ const Building = (props) => {
     }, [width, length])
 
     const renderTimbersB = () => renderObjects(models, currentTimbersBData, 'timber', "rgb(200, 255, 20)");
-    const renderTimbersA = () => renderObjects(models, timbersAData, 'timberA', "rgb(60, 100, 100)", [0, Math.PI / 2, 0]);
-    const renderTimbersC = () => renderObjects(models, timbersCData, 'timber', "rgb(200, 75, 70)");
+    const renderTimbersA = () => renderObjects(models, currentTimbersAData, 'timberA', "rgb(60, 100, 100)", [0, Math.PI / 2, 0]);
+    const renderTimbersC = () => renderObjects(models, currentTimbersCData, 'timber', "rgb(200, 75, 70)");
 
     const renderInsideLodges = () => renderObjects(models, currentInsideLodgesData, 'lodge', "rgb(0, 255, 230)");
     const renderOutsideLodges = () => renderObjects(models, currentOutsideLodgesData, 'lodge', "rgb(100, 20, 230)");
@@ -118,8 +124,8 @@ const Building = (props) => {
             {renderPerimeterBalks()}
             {renderInsideLodges()}
             {/* {renderOutsideLodges()} */}
-            {renderTimbersB()}
-            {/* {renderTimbersA()} */}
+            {/* {renderTimbersB()} */}
+            {renderTimbersA()}
             {/* {renderTimbersC()} */}
             {/* {renderBevels()} */}
             {/* {renderRoofEdges()} */}
