@@ -13,8 +13,8 @@ import {
     generateRoofCornersData,
     generateRoofEdgesData,
     generateRuberoidData
-} from '../utils/constants';
-import { renderBalkGroups, renderObjects, renderRuberoidMesh } from "../utils/functions";
+} from '../utils/dataFunctions';
+import { renderBalkGroups, renderObjects, renderRuberoidMesh } from "../utils/renderFunctions";
 
 const Building = (props) => {
     const { width, length } = props;
@@ -99,22 +99,22 @@ const Building = (props) => {
         }
     }, [width, length])
 
-    const renderTimbersB = () => renderObjects(models, currentTimbersBData, 'timber', textures, "rgb(200, 255, 20)");
-    const renderTimbersA = () => renderObjects(models, currentTimbersAData, 'timberA', textures, [0, Math.PI / 2, 0], "rgb(60, 100, 100)");
-    const renderTimbersC = () => renderObjects(models, currentTimbersCData, 'timber', textures, "rgb(200, 75, 70)");
+    const renderTimbersB = () => renderObjects(models, currentTimbersBData, 'timber', textures);
+    const renderTimbersA = () => renderObjects(models, currentTimbersAData, 'timberA', textures, [0, Math.PI / 2, 0]);
+    const renderTimbersC = () => renderObjects(models, currentTimbersCData, 'timber', textures);
 
-    const renderInsideLodges = () => renderObjects(models, currentInsideLodgesData, 'lodge', textures, "rgb(0, 255, 230)");
-    const renderOutsideLodges = () => renderObjects(models, currentOutsideLodgesData, 'lodge', textures, "rgb(100, 20, 230)");
+    const renderInsideLodges = () => renderObjects(models, currentInsideLodgesData, 'lodge', textures);
+    const renderOutsideLodges = () => renderObjects(models, currentOutsideLodgesData, 'lodge', textures);
 
-    const renderPerimeterBalks = () => renderObjects(models, currentPerimeterBalksData, 'perimeterBalk', textures, "rgb(255, 0, 230)");
-    const renderCornerBalks = () => renderBalkGroups(models, currentCornerBalksData, 'balk', textures, "rgb(255, 255, 230)", [0, -Math.PI/2, 0], textures);
-    const renderSideBalks = () => renderBalkGroups(models, currentSideBalksData, 'balk', textures, "rgb(255, 255, 230)", [0, -Math.PI, 0], textures);
+    const renderPerimeterBalks = () => renderObjects(models, currentPerimeterBalksData, 'perimeterBalk', textures);
+    const renderCornerBalks = () => renderBalkGroups(models, currentCornerBalksData, 'balk', textures, [0, -Math.PI/2, 0]);
+    const renderSideBalks = () => renderBalkGroups(models, currentSideBalksData, 'balk', textures, [0, -Math.PI, 0]);
 
-    const renderBevels = () => renderObjects(models, currentBevelsData, 'bevel', textures, "rgb(50, 255, 20)");
-    const renderRoofEdges = () => renderObjects(models, currentRoofEdgesData, 'roofEdge', textures, "rgb(0, 50, 255)");
-    const renderRoofCorners = () => renderObjects(models, currentRoofCornersData, 'roofCorner', textures, "rgb(0, 50, 255)");
+    const renderBevels = () => renderObjects(models, currentBevelsData, 'bevel', textures);
+    const renderRoofEdges = () => renderObjects(models, currentRoofEdgesData, 'roofEdge', textures);
+    const renderRoofCorners = () => renderObjects(models, currentRoofCornersData, 'roofCorner', textures);
     
-    const renderRuberoid = () => renderRuberoidMesh(models, currentRuberoidData, 'ruberoid', textures, "rgb(100, 100, 100)");
+    const renderRuberoid = () => renderRuberoidMesh(models, currentRuberoidData, 'ruberoid', textures);
 
 
     if(!loaded){
@@ -123,18 +123,18 @@ const Building = (props) => {
 
     return (
         <group>
-            {renderCornerBalks()}
-            {renderSideBalks()}
-            {renderPerimeterBalks()}
-            {renderInsideLodges()}
-            {renderOutsideLodges()}
-            {renderTimbersB()}
-            {renderTimbersA()}
-            {renderTimbersC()}
-            {renderBevels()}
-            {renderRoofEdges()}
-            {renderRoofCorners()}
-            {renderRuberoid()}
+            { renderCornerBalks() }
+            { renderSideBalks() }
+            { renderPerimeterBalks() }
+            { renderInsideLodges() }
+            { renderOutsideLodges() }
+            { renderTimbersB() }
+            { renderTimbersA() }
+            { renderTimbersC() }
+            { renderBevels() }
+            { renderRoofEdges() }
+            { renderRoofCorners() }
+            { renderRuberoid() }
         </group>
     );
 };

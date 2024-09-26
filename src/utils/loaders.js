@@ -1,5 +1,5 @@
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { path } from './paths';
+import { path } from './constants';
 import { TextureLoader } from 'three';
 
 export const loadModelsAsync = async () => {
@@ -34,7 +34,6 @@ export const loadModelsAsync = async () => {
 
 export const loadTexturesAsync = async () => {
     const loader = new TextureLoader();
-
 
     const [wood, roof] = await Promise.all([
         loader.loadAsync(path.woodTexture),
