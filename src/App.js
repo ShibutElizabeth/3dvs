@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
     Lightformer,
@@ -5,10 +6,22 @@ import {
     Environment,
 } from "@react-three/drei";
 import Base from "./components/Base";
+import { Loader } from "./components/Loader";
 
 export const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return ( 
     <> 
+      {isLoading ? <Loader /> : <></>}
       <Canvas
         eventSource={document.getElementById("root")}
         eventPrefix="client"
