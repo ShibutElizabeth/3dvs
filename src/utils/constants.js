@@ -44,7 +44,7 @@ export const RUBEROID_DATA = {
 export const getKoefficient = (i) => (i % 2 === 0 ? -1 : 1);
 
 // Функции для генерации данных
-export const generateCornerBalksData = () => {
+export const generateCornerBalksData = (w = 0, l = 0) => {
     const cornerBalksData = [];
     const rotations = [0, -1, 1, 2];
     const c = [-1, -1, 1, 1];
@@ -53,9 +53,9 @@ export const generateCornerBalksData = () => {
         const k = getKoefficient(i);
         cornerBalksData.push({
             position: [
-                k * (HALF_DIMENSIONS.WIDTH - SIZES.BALK.hWidth),
+                k * (HALF_DIMENSIONS.WIDTH - SIZES.BALK.hWidth + w),
                 0,
-                c[i] * (HALF_DIMENSIONS.DEPTH - SIZES.BALK.hWidth)
+                c[i] * (HALF_DIMENSIONS.DEPTH - SIZES.BALK.hWidth + l)
             ],
             rotation: [0, rotations[i] * Math.PI / 2, 0],
         });
@@ -63,13 +63,13 @@ export const generateCornerBalksData = () => {
     return cornerBalksData;
 };
 
-export const generateSideBalksData = () => {
+export const generateSideBalksData = (w = 0) => {
     const sideBalksData = [];
 
     for (let i = 0; i < 2; i++) {
         const k = getKoefficient(i);
         sideBalksData.push({
-            position: [k * (HALF_DIMENSIONS.WIDTH - SIZES.BALK.hWidth), 0, 0],
+            position: [k * (HALF_DIMENSIONS.WIDTH - SIZES.BALK.hWidth + w), 0, 0],
             rotation: [0, k * Math.PI / 2, 0],
         });
     }
