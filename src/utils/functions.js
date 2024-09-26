@@ -1,5 +1,6 @@
 
-export const renderObjects = (data, modelKey, color, rotation = [0, 0, 0]) => {
+
+export const renderObjects = (models, data, modelKey, color, rotation = [0, 0, 0]) => {
     return data.map((el, index) => (
         <mesh
             key={`${modelKey}-${index}-${data[index].position[0]}`}
@@ -15,7 +16,7 @@ export const renderObjects = (data, modelKey, color, rotation = [0, 0, 0]) => {
     ));
 };
 
-export const renderBalkGroups = (data, modelKey, color, rotation = [0, 0, 0]) => {
+export const renderBalkGroups = (models, data, modelKey, color, rotation = [0, 0, 0]) => {
     return data.map((el, index) => (
         <group 
             key={`group-${modelKey}-${index}-${data[index].position[0]}`}

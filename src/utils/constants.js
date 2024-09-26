@@ -76,41 +76,46 @@ export const generateSideBalksData = (w = 0) => {
     return sideBalksData;
 };
 
-export const generatePerimeterBalksData = () => {
+export const generatePerimeterBalksData = (w = 0, l = 0) => {
     const perimeterBalksData = [];
     const rotations = [0, 2, -1, 1];
     
     for (let i = 0; i < 4; i++) {
         const k = getKoefficient(i);
-        const f = i < 2 ? 0 : 1;
+        const f = i < 2 ? [0, 1] : [1, 0];
         perimeterBalksData.push({
             position: [
-                k * (HALF_DIMENSIONS.WIDTH - f * SIZES.BALK.hWidth),
+                k * (HALF_DIMENSIONS.WIDTH - f[0] * SIZES.BALK.hWidth + w),
                 DIMENSIONS.HEIGHT,
-                k * (HALF_DIMENSIONS.DEPTH - (f + 1) * SIZES.BALK.hWidth),
+                k * (HALF_DIMENSIONS.DEPTH - (f[0] + 1) * SIZES.BALK.hWidth + l),
             ],
             rotation: [0, rotations[i] * Math.PI / 2, 0],
-            scale: [DIMENSIONS.WIDTH + f * 1.7, 1, 1],
+            scale: [DIMENSIONS.WIDTH + f[0] * 1.7 + 2 * (f[1] * w + f[0]* l), 1, 1],
         });
     }
     return perimeterBalksData;
 };
 
-export const generateOutsideLodgesData = () => {
+export const generateOutsideLodgesData = (w = 0, l = 0) => {
     const outsideLodgesData = [];
     const rotations = [0, 2, -1, 1];
     
     for (let i = 0; i < 4; i++) {
         const k = getKoefficient(i);
-        const f = i < 2 ? 0 : 1;
+        const f = i < 2 ? [0, 1] : [1, 1];
         outsideLodgesData.push({
             position: [
-                k * (HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING - f * SIZES.LODGE.width),
+                k * (HALF_DIMENSIONS.WIDTH + DIMENSIONS.PADDING - f[0] * SIZES.LODGE.width + w),
                 DIMENSIONS.HEIGHT + SIZES.LODGE.height,
-                k * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING - f * SIZES.LODGE.width),
+                k * (HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING - f[0] * SIZES.LODGE.width + l),
             ],
             rotation: [0, rotations[i] * Math.PI / 2, 0],
-            scale: [(1 - f) * (DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING) + f * (DIMENSIONS.DEPTH + 2 * (DIMENSIONS.PADDING - SIZES.LODGE.width)), 1, 1],
+            scale: [
+                ((1 - f[0]) * (DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING + 2 * w)) 
+                    + (f[0] * (DIMENSIONS.DEPTH + 2 * (DIMENSIONS.PADDING - SIZES.LODGE.width)) + 2 * (f[0]* l)),
+                1,
+                1
+            ],
         });
     }
     return outsideLodgesData;
