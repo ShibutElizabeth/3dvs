@@ -58,7 +58,6 @@ const Building = (props) => {
         const fetchTextures = async () => {
             const loadedTextures = await loadTexturesAsync();
             setTextures(loadedTextures);
-            console.log(loadedTextures)
         };
         
         fetchTextures();
