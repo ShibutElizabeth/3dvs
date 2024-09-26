@@ -12,9 +12,9 @@ import {
     generateTimbersCData,
     generateRoofCornersData,
     generateRoofEdgesData,
-    RUBEROID_DATA
+    generateRuberoidData
 } from '../utils/constants';
-import { renderBalkGroups, renderObjects } from "../utils/functions";
+import { renderBalkGroups, renderObjects, renderRuberoidMesh } from "../utils/functions";
 
 const Building = (props) => {
     const { width, length } = props;
@@ -29,7 +29,7 @@ const Building = (props) => {
     const timbersCData = generateTimbersCData();
     const roofEdgesData = generateRoofEdgesData();
     const roofCornersData = generateRoofCornersData();
-    const ruberoidData = RUBEROID_DATA;
+    const ruberoidData = generateRuberoidData();
 
     const [models, setModels] = useState(null);
     const [loaded, setLoaded] = useState(false);
@@ -46,7 +46,7 @@ const Building = (props) => {
     const [currentTimbersCData, setCurrentTimbersCData] = useState(timbersCData);
     const [currentRoofEdgesData, setCurrentRoofEdgesData] = useState(roofEdgesData);
     const [currentRoofCornersData, setCurrentRoofCornersData] = useState(roofCornersData);
-
+    const [currentRuberoidData, setCurrentRuberoidData] = useState(ruberoidData)
 
     useEffect(() => {
         const fetchModels = async () => {
@@ -83,6 +83,8 @@ const Building = (props) => {
             setCurrentRoofCornersData(updatedRoofCornersData);
             const updatedRoofEdgesData = generateRoofEdgesData(w, l);
             setCurrentRoofEdgesData(updatedRoofEdgesData);
+            const updatedRuberoidData = generateRuberoidData(w, l);
+            setCurrentRuberoidData(updatedRuberoidData);
             
             setCurrentWidth(width);
             setCurrentLength(length);
@@ -103,19 +105,8 @@ const Building = (props) => {
     const renderBevels = () => renderObjects(models, currentBevelsData, 'bevel', "rgb(50, 255, 20)");
     const renderRoofEdges = () => renderObjects(models, currentRoofEdgesData, 'roofEdge', "rgb(0, 50, 255)");
     const renderRoofCorners = () => renderObjects(models, currentRoofCornersData, 'roofCorner', "rgb(0, 50, 255)");
-
-    const renderRuberoid = () => (
-        <mesh
-            receiveShadow
-            castShadow
-            geometry={models.ruberoid.children[0].geometry}
-            position={ruberoidData.position}
-            scale={ruberoidData.scale}
-            rotation={ruberoidData.rotation}
-        >
-            <meshBasicMaterial roughness={1} color={"rgb(100, 100, 100)"} />
-        </mesh>
-    );
+    
+    const renderRuberoid = () => renderRuberoidMesh(models, currentRuberoidData, 'ruberoid', "rgb(100, 100, 100)");
 
     
 
@@ -129,14 +120,14 @@ const Building = (props) => {
             {renderSideBalks()}
             {renderPerimeterBalks()}
             {renderInsideLodges()}
-            {/* {renderOutsideLodges()} */}
-            {/* {renderTimbersB()} */}
-            {/* {renderTimbersA()} */}
-            {/* {renderTimbersC()} */}
-            {/* {renderBevels()} */}
+            {renderOutsideLodges()}
+            {renderTimbersB()}
+            {renderTimbersA()}
+            {renderTimbersC()}
+            {renderBevels()}
             {renderRoofEdges()}
             {renderRoofCorners()}
-            {/* {renderRuberoid()} */}
+            {renderRuberoid()}
         </group>
     );
 };

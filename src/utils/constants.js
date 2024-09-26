@@ -26,18 +26,20 @@ export const SIZES = {
 };
 
 // Общие данные
-export const RUBEROID_DATA = {
-    position: [
-        -HALF_DIMENSIONS.WIDTH - DIMENSIONS.PADDING,
-        DIMENSIONS.HEIGHT + 2 * DIMENSIONS.DIFFERENCE + SIZES.LODGE.height,
-        HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING,
-    ],
-    rotation: [0, 0, 0],
-    scale: [
-        DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING,
-        1,
-        DIMENSIONS.DEPTH + 2 * DIMENSIONS.PADDING,
-    ],
+export const generateRuberoidData = (w = 0, l = 0) => {
+    return {
+        position: [
+            -HALF_DIMENSIONS.WIDTH - DIMENSIONS.PADDING - w,
+            DIMENSIONS.HEIGHT + 2 * DIMENSIONS.DIFFERENCE + SIZES.LODGE.height,
+            HALF_DIMENSIONS.DEPTH + DIMENSIONS.PADDING + l,
+        ],
+        rotation: [0, 0, 0],
+        scale: [
+            DIMENSIONS.WIDTH + 2 * DIMENSIONS.PADDING + 2 * w,
+            1,
+            DIMENSIONS.DEPTH + 2 * DIMENSIONS.PADDING + 2 * l,
+        ]
+    }
 };
 
 // Утилитарные функции
@@ -196,7 +198,7 @@ export const generateTimbersAData = (w = 0, l = 0) => {
             position: [
                 -k[0] * (HALF_DIMENSIONS.WIDTH - (i + k[1]) * (DIMENSIONS.TIMBER_A_DIFFERENCE + f) + w),
                 DIMENSIONS.HEIGHT + SIZES.BALK.width,
-                -k[0] * (HALF_DIMENSIONS.DEPTH - k[2]),
+                -k[0] * (HALF_DIMENSIONS.DEPTH - k[2] + l),
             ],
             scale: [0.95, 1, 1],
         });

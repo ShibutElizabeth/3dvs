@@ -47,3 +47,17 @@ export const renderBalkGroups = (models, data, modelKey, color, rotation = [0, 0
          </group>
     ));
 };
+
+export const renderRuberoidMesh = (models, data, modelKey, color) => (
+    <mesh
+        key={`${modelKey}-0`}
+        receiveShadow
+        castShadow
+        geometry={models[modelKey].children[0].geometry}
+        position={data.position}
+        scale={data.scale}
+        rotation={data.rotation}
+    >
+        <meshBasicMaterial roughness={1} color={"rgb(100, 100, 100)"} />
+    </mesh>
+);
