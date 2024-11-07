@@ -33,7 +33,8 @@ const Building = (props) => {
 
     const [models, setModels] = useState(null);
     const [textures, setTextures] = useState(null);
-    const [loaded, setLoaded] = useState(false);
+    const [modelsLoaded, setModelsLoaded] = useState(false);
+    const [texturesLoaded, setTexturesLoaded] = useState(false);
     const [currentWidth, setCurrentWidth] = useState(width);
     const [currentLength, setCurrentLength] = useState(length);
     const [currentCornerBalksData, setCurrentCornerBalksData] = useState(cornerBalksData);
@@ -53,11 +54,12 @@ const Building = (props) => {
         const fetchModels = async () => {
             const loadedModels = await loadModelsAsync();
             setModels(loadedModels);
-            setLoaded(true);
+            setModelsLoaded(true);
         };
         const fetchTextures = async () => {
             const loadedTextures = await loadTexturesAsync();
             setTextures(loadedTextures);
+            setTexturesLoaded(true);
         };
         
         fetchTextures();
@@ -116,7 +118,7 @@ const Building = (props) => {
     const renderRuberoid = () => renderRuberoidMesh(models, currentRuberoidData, 'ruberoid', textures);
 
 
-    if(!loaded){
+    if(!modelsLoaded || !texturesLoaded){
         return <></>
     }
 
